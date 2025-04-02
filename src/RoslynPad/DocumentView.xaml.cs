@@ -1,4 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -209,6 +214,99 @@ public partial class DocumentView : IDisposable
         {
             e.Handled = true;
             Editor.Focus();
+        }
+    }
+
+    ////////////////////////////////////////// GREYWIND
+
+    private async void BuildRunBtn_Click(object sender, RoutedEventArgs e)
+    {
+        // 清空之前的输出
+        OutputTextBox.Text = string.Empty;
+
+        try
+        {
+            string fileName = SearchProgramFile()!;
+            string dllFilePath = Path.Combine(_viewModel!.BuildPath, "bin");
+            string dllFile = Directory.GetFiles(dllFilePath, "*.dll").Single(f => !Path.GetFileName(f).Equals("RoslynPad.Runtime.dll", StringComparison.OrdinalIgnoreCase));
+            //string dllFile = fileName + ".dll";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",  // 直接运行dotnet程序
+                Arguments = $"\"{dllFile}\"",  // 处理路径中的空格
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
+            };
+
+            using (Process process = new Process())
+            {
+                process.StartInfo = startInfo;
+
+                // 异步输出处理
+                process.OutputDataReceived += (sender, e) => AppendOutputText(e.Data!);
+                process.ErrorDataReceived += (sender, e) => AppendOutputText(e.Data!);
+
+                process.Start();
+
+                // 开始异步读取输出
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                // 异步等待进程退出（需要.NET 5+）
+                await process.WaitForExitAsync().ConfigureAwait(true);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Search DLL file error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        void AppendOutputText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            // WPF跨线程访问UI控件
+            if (!OutputTextBox.Dispatcher.CheckAccess())
+            {
+                OutputTextBox.Dispatcher.InvokeAsync(() =>
+                    OutputTextBox.AppendText($"{text}{Environment.NewLine}"));
+            }
+            else
+            {
+                OutputTextBox.AppendText($"{text}{Environment.NewLine}");
+            }
+        }
+    }
+
+    private string? SearchProgramFile()
+    {
+        try
+        {
+            // 增加目录存在性校验
+            if (!Directory.Exists(_viewModel!.BuildPath))
+            {
+                Console.WriteLine("目录不存在");
+                return null;
+            }
+
+            // 获取首个符合条件的文件名（不包含扩展名）
+            string firstFileName = Directory.EnumerateFiles(_viewModel!.BuildPath, "*.cs")
+                .Where(file =>
+                    !Path.GetFileName(file).Equals("ModuleInitializer.cs", StringComparison.OrdinalIgnoreCase))
+                .Select(file => Path.GetFileNameWithoutExtension(file)) // 直接移除扩展名
+                .FirstOrDefault()!;
+
+            return firstFileName;
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message, "Search DLL file error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return null;
         }
     }
 }

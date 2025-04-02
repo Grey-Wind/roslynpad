@@ -1,17 +1,18 @@
-﻿<Application x:Class="RoslynPad.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:av="http://schemas.codeplex.com/wpfcontrib/xaml/presentation"
-             xmlns:formatting="clr-namespace:RoslynPad.Formatting"
-             xmlns:codeAnalysis="clr-namespace:Microsoft.CodeAnalysis;assembly=Microsoft.CodeAnalysis"
-             xmlns:codeActions="clr-namespace:Microsoft.CodeAnalysis.CodeActions;assembly=Microsoft.CodeAnalysis.Workspaces"
-             xmlns:codeFixes="clr-namespace:RoslynPad.Roslyn.CodeFixes;assembly=RoslynPad.Roslyn"
-             xmlns:cc="clr-namespace:ICSharpCode.AvalonEdit.CodeCompletion;assembly=ICSharpCode.AvalonEdit"
-             xmlns:controls="clr-namespace:RoslynPad.Controls"
-             xmlns:rp="clr-namespace:RoslynPad"
-             xmlns:editor="clr-namespace:RoslynPad.Editor;assembly=RoslynPad.Editor.Windows"
-             xmlns:converters="clr-namespace:RoslynPad.Converters"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="RoslynPad.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:av="http://schemas.codeplex.com/wpfcontrib/xaml/presentation"
+    xmlns:cc="clr-namespace:ICSharpCode.AvalonEdit.CodeCompletion;assembly=ICSharpCode.AvalonEdit"
+    xmlns:codeActions="clr-namespace:Microsoft.CodeAnalysis.CodeActions;assembly=Microsoft.CodeAnalysis.Workspaces"
+    xmlns:codeAnalysis="clr-namespace:Microsoft.CodeAnalysis;assembly=Microsoft.CodeAnalysis"
+    xmlns:codeFixes="clr-namespace:RoslynPad.Roslyn.CodeFixes;assembly=RoslynPad.Roslyn"
+    xmlns:controls="clr-namespace:RoslynPad.Controls"
+    xmlns:converters="clr-namespace:RoslynPad.Converters"
+    xmlns:editor="clr-namespace:RoslynPad.Editor;assembly=RoslynPad.Editor.Windows"
+    xmlns:formatting="clr-namespace:RoslynPad.Formatting"
+    xmlns:rp="clr-namespace:RoslynPad"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,24 +21,22 @@
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:DoubleToPercentageTextConverter x:Key="DoubleToPercentageTextConverter" />
-            <formatting:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter"
-                                                     FalseValue="Hidden" />
+            <formatting:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" FalseValue="Hidden" />
 
             <ControlTemplate x:Key="ErrorTemplate">
-                <Border BorderBrush="{DynamicResource {x:Static rp:ThemeDictionary.StatusBarItemErrorBackground}}"
-                        ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=controlWithError}"
-                        BorderThickness="1">
+                <Border
+                    BorderBrush="{DynamicResource {x:Static rp:ThemeDictionary.StatusBarItemErrorBackground}}"
+                    BorderThickness="1"
+                    ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=controlWithError}">
                     <AdornedElementPlaceholder x:Name="controlWithError" />
                 </Border>
             </ControlTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type codeFixes:CodeFixCollection}"
-                                      ItemsSource="{Binding Fixes, Mode=OneTime}">
+            <HierarchicalDataTemplate DataType="{x:Type codeFixes:CodeFixCollection}" ItemsSource="{Binding Fixes, Mode=OneTime}">
                 <TextBlock Text="{Binding Provider, Mode=OneTime}" />
             </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type codeFixes:CodeFix}"
-                                      ItemsSource="{Binding Action, Mode=OneTime, Converter={formatting:CodeActionsConverter}}">
+            <HierarchicalDataTemplate DataType="{x:Type codeFixes:CodeFix}" ItemsSource="{Binding Action, Mode=OneTime, Converter={formatting:CodeActionsConverter}}">
                 <ContentPresenter Content="{Binding Action, Mode=OneTime}" />
             </HierarchicalDataTemplate>
 
@@ -60,13 +59,15 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="cc:InsightWindow">
-                            <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Padding}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    Background="{TemplateBinding Background}">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <Border
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -87,28 +88,26 @@
             </Style>
 
             <Style TargetType="ToolTip">
-                <Setter Property="Background"
-                        Value="{DynamicResource {x:Static rp:ThemeDictionary.PanelBackground}}" />
-                <Setter Property="BorderBrush"
-                        Value="{DynamicResource {x:Static rp:ThemeDictionary.InputBorder}}" />
-                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static rp:ThemeDictionary.Foreground}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static rp:ThemeDictionary.PanelBackground}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static rp:ThemeDictionary.InputBorder}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static rp:ThemeDictionary.Foreground}}" />
             </Style>
 
             <Style TargetType="ToolBar">
-                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static rp:ThemeDictionary.Foreground}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static rp:ThemeDictionary.Foreground}}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToolBar">
-                            <Border x:Name="MainPanelBorder"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Padding}">
-                                <ToolBarPanel x:Name="PART_ToolBarPanel"
-                                              Margin="5"
-                                              IsItemsHost="true" />
+                            <Border
+                                x:Name="MainPanelBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ToolBarPanel
+                                    x:Name="PART_ToolBarPanel"
+                                    Margin="5"
+                                    IsItemsHost="true" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -116,15 +115,16 @@
             </Style>
 
             <Style x:Key="ScrollBarThumb" TargetType="Thumb">
-                <Setter Property="OverridesDefaultStyle" Value="true"/>
-                <Setter Property="IsTabStop" Value="false"/>
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="IsTabStop" Value="false" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">
-                            <Rectangle x:Name="rectangle"
-                                Fill="{DynamicResource {x:Static rp:ThemeDictionary.ScrollBarSliderBackground}}"
+                            <Rectangle
+                                x:Name="rectangle"
+                                Width="{TemplateBinding Width}"
                                 Height="{TemplateBinding Height}"
-                                Width="{TemplateBinding Width}"/>
+                                Fill="{DynamicResource {x:Static rp:ThemeDictionary.ScrollBarSliderBackground}}" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
                                     <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource {x:Static rp:ThemeDictionary.ScrollBarSliderHoverBackground}}" />
@@ -142,9 +142,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ScrollBar">
-                            <Track x:Name="PART_Track"
-                                   IsDirectionReversed="true"
-                                   IsEnabled="{TemplateBinding IsMouseOver}">
+                            <Track
+                                x:Name="PART_Track"
+                                IsDirectionReversed="true"
+                                IsEnabled="{TemplateBinding IsMouseOver}">
                                 <Track.DecreaseRepeatButton>
                                     <RepeatButton Name="Decrease" Command="{x:Static ScrollBar.PageUpCommand}" />
                                 </Track.DecreaseRepeatButton>
@@ -157,31 +158,27 @@
                             </Track>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="Orientation" Value="Horizontal">
-                                    <Setter TargetName="PART_Track"
-                                            Property="IsDirectionReversed"
-                                            Value="false" />
-                                    <Setter TargetName="Decrease"
-                                            Property="Command"
-                                            Value="{x:Static ScrollBar.PageLeftCommand}" />
-                                    <Setter TargetName="Increase"
-                                            Property="Command"
-                                            Value="{x:Static ScrollBar.PageRightCommand}" />                                </Trigger>
+                                    <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="false" />
+                                    <Setter TargetName="Decrease" Property="Command" Value="{x:Static ScrollBar.PageLeftCommand}" />
+                                    <Setter TargetName="Increase" Property="Command" Value="{x:Static ScrollBar.PageRightCommand}" />                                
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
                 <Style.Resources>
                     <Style TargetType="RepeatButton">
-                        <Setter Property="OverridesDefaultStyle" Value="true"/>
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Focusable" Value="false"/>
-                        <Setter Property="IsTabStop" Value="false"/>
+                        <Setter Property="OverridesDefaultStyle" Value="true" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Focusable" Value="false" />
+                        <Setter Property="IsTabStop" Value="false" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="RepeatButton">
-                                    <Rectangle Fill="{TemplateBinding Background}"
-                                               Height="{TemplateBinding Height}"
-                                               Width="{TemplateBinding Width}" />
+                                    <Rectangle
+                                        Width="{TemplateBinding Width}"
+                                        Height="{TemplateBinding Height}"
+                                        Fill="{TemplateBinding Background}" />
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -189,45 +186,32 @@
                 </Style.Resources>
             </Style>
 
-            <Style x:Key="Title"
-                   TargetType="TextBlock">
-                <Setter Property="FontSize"
-                        Value="16" />
+            <Style x:Key="Title" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="16" />
             </Style>
 
-            <Style x:Key="DialogButton"
-                   TargetType="Button">
-                <Setter Property="Padding"
-                        Value="10,2,10,2" />
-                <Setter Property="Margin"
-                        Value="10,0,0,0" />
+            <Style x:Key="DialogButton" TargetType="Button">
+                <Setter Property="Padding" Value="10,2,10,2" />
+                <Setter Property="Margin" Value="10,0,0,0" />
             </Style>
 
-            <Style x:Key="LinkButton"
-                   TargetType="Button">
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="BorderThickness"
-                        Value="0" />
-                <Setter Property="Padding"
-                        Value="0" />
-                <Setter Property="Foreground"
-                        Value="DodgerBlue" />
-                <Setter Property="Cursor"
-                        Value="Hand" />
+            <Style x:Key="LinkButton" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Foreground" Value="DodgerBlue" />
+                <Setter Property="Cursor" Value="Hand" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <TextBlock Name="Text"
-                                       Text="{TemplateBinding Content}"
-                                       Background="{TemplateBinding Background}"
-                                       Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock
+                                Name="Text"
+                                Background="{TemplateBinding Background}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Text="{TemplateBinding Content}" />
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver"
-                                         Value="True">
-                                    <Setter TargetName="Text"
-                                            Property="TextBlock.TextDecorations"
-                                            Value="Underline" />
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Text" Property="TextBlock.TextDecorations" Value="Underline" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -245,59 +229,40 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type controls:TreeListViewItem}">
-                            <Border Name="OuterBd"
-                                    BorderBrush="#eeeeee">
+                            <Border Name="OuterBd" BorderBrush="#eeeeee">
                                 <DockPanel>
-                                    <Border Name="Bd"
-                                            DockPanel.Dock="Top"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter x:Name="PART_Header"
-                                                          ContentSource="Header" />
+                                    <Border
+                                        Name="Bd"
+                                        Padding="{TemplateBinding Padding}"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        DockPanel.Dock="Top">
+                                        <ContentPresenter x:Name="PART_Header" ContentSource="Header" />
                                     </Border>
                                     <ItemsPresenter x:Name="ItemsHost" />
                                 </DockPanel>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="ShowSeparator"
-                                         Value="True">
-                                    <Setter TargetName="OuterBd"
-                                            Property="Margin"
-                                            Value="0,2,0,2" />
-                                    <Setter TargetName="OuterBd"
-                                            Property="BorderThickness"
-                                            Value="0,0,0,1" />
+                                <Trigger Property="ShowSeparator" Value="True">
+                                    <Setter TargetName="OuterBd" Property="Margin" Value="0,2,0,2" />
+                                    <Setter TargetName="OuterBd" Property="BorderThickness" Value="0,0,0,1" />
                                 </Trigger>
-                                <Trigger Property="IsExpanded"
-                                         Value="false">
-                                    <Setter TargetName="ItemsHost"
-                                            Property="Visibility"
-                                            Value="Collapsed" />
+                                <Trigger Property="IsExpanded" Value="false">
+                                    <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
                                 </Trigger>
-                                <Trigger Property="IsSelected"
-                                         Value="true">
-                                    <Setter TargetName="Bd"
-                                            Property="Background"
-                                            Value="{DynamicResource {x:Static rp:ThemeDictionary.ListActiveSelectionBackground}}" />
-                                    <Setter Property="Foreground"
-                                            Value="{DynamicResource {x:Static rp:ThemeDictionary.ListActiveSelectionForeground}}" />
-                                    <Setter Property="BorderBrush"
-                                            Value="{DynamicResource {x:Static rp:ThemeDictionary.FocusBorder}}" />
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static rp:ThemeDictionary.ListActiveSelectionBackground}}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static rp:ThemeDictionary.ListActiveSelectionForeground}}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static rp:ThemeDictionary.FocusBorder}}" />
                                 </Trigger>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
-                                        <Condition Property="IsSelected"
-                                                   Value="true" />
-                                        <Condition Property="IsSelectionActive"
-                                                   Value="false" />
+                                        <Condition Property="IsSelected" Value="true" />
+                                        <Condition Property="IsSelectionActive" Value="false" />
                                     </MultiTrigger.Conditions>
-                                    <Setter TargetName="Bd"
-                                            Property="Background"
-                                            Value="{DynamicResource {x:Static rp:ThemeDictionary.ListInactiveSelectionBackground}}" />
-                                    <Setter Property="BorderBrush"
-                                            Value="{DynamicResource {x:Static rp:ThemeDictionary.ListInactiveSelectionBackground}}" />
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static rp:ThemeDictionary.ListInactiveSelectionBackground}}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static rp:ThemeDictionary.ListInactiveSelectionBackground}}" />
                                 </MultiTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -310,9 +275,10 @@
             <PathGeometry x:Key="TreeArrow">
                 <PathGeometry.Figures>
                     <PathFigureCollection>
-                        <PathFigure IsFilled="True"
-                                    StartPoint="0 0"
-                                    IsClosed="True">
+                        <PathFigure
+                            IsClosed="True"
+                            IsFilled="True"
+                            StartPoint="0 0">
                             <PathFigure.Segments>
                                 <PathSegmentCollection>
                                     <LineSegment Point="0 6" />
@@ -324,48 +290,36 @@
                 </PathGeometry.Figures>
             </PathGeometry>
 
-            <Style x:Key="TreeListViewToggleStyle"
-                   TargetType="{x:Type ToggleButton}">
-                <Setter Property="Margin"
-                        Value="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
-                <Setter Property="IsChecked"
-                        Value="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
-                <Setter Property="Visibility"
-                        Value="{Binding Path=HasItems, Converter={StaticResource BooleanToVisibilityHiddenConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
-                <Setter Property="ClickMode"
-                        Value="Press" />
-                <Setter Property="Focusable"
-                        Value="False" />
-                <Setter Property="Width"
-                        Value="16" />
-                <Setter Property="Height"
-                        Value="16" />
+            <Style x:Key="TreeListViewToggleStyle" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Margin" Value="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
+                <Setter Property="IsChecked" Value="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
+                <Setter Property="Visibility" Value="{Binding Path=HasItems, Converter={StaticResource BooleanToVisibilityHiddenConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
+                <Setter Property="ClickMode" Value="Press" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                            <Border Width="16"
-                                    Height="16"
-                                    Background="Transparent"
-                                    Padding="5,5,5,5">
-                                <Path x:Name="ExpandPath"
-                                      Fill="{TemplateBinding Foreground}"
-                                      Data="{StaticResource TreeArrow}">
+                            <Border
+                                Width="16"
+                                Height="16"
+                                Padding="5,5,5,5"
+                                Background="Transparent">
+                                <Path
+                                    x:Name="ExpandPath"
+                                    Data="{StaticResource TreeArrow}"
+                                    Fill="{TemplateBinding Foreground}">
                                     <Path.RenderTransform>
-                                        <RotateTransform Angle="135"
-                                                         CenterX="3"
-                                                         CenterY="3" />
+                                        <RotateTransform Angle="135" CenterX="3" CenterY="3" />
                                     </Path.RenderTransform>
                                 </Path>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsChecked"
-                                         Value="True">
-                                    <Setter TargetName="ExpandPath"
-                                            Property="RenderTransform">
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="ExpandPath" Property="RenderTransform">
                                         <Setter.Value>
-                                            <RotateTransform Angle="180"
-                                                             CenterX="3"
-                                                             CenterY="3" />
+                                            <RotateTransform Angle="180" CenterX="3" CenterY="3" />
                                         </Setter.Value>
                                     </Setter>
                                 </Trigger>
@@ -375,8 +329,7 @@
                 </Setter>
             </Style>
 
-            <DataTemplate x:Key="{DataTemplateKey {x:Static rp:XamlTypes.RestoreResultObject}}"
-                          DataType="{x:Static rp:XamlTypes.RestoreResultObject}">
+            <DataTemplate x:Key="{DataTemplateKey {x:Static rp:XamlTypes.RestoreResultObject}}" DataType="{x:Static rp:XamlTypes.RestoreResultObject}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="ResultNameGroup" />
@@ -386,42 +339,41 @@
                         <ColumnDefinition SharedSizeGroup="ResultTypeGroup" />
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0">
-                        <Button Command="Copy"
-                                Padding="0"
-                                Margin="2 0 5 0"
-                                VerticalAlignment="Top"
-                                KeyboardNavigation.IsTabStop="False"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
-                            <Image Source="{StaticResource Copy}"
-                                   ToolTip="Copy"
-                                   Height="12" />
+                        <Button
+                            Margin="2,0,5,0"
+                            Padding="0"
+                            VerticalAlignment="Top"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Command="Copy"
+                            KeyboardNavigation.IsTabStop="False">
+                            <Image
+                                Height="12"
+                                Source="{StaticResource Copy}"
+                                ToolTip="Copy" />
                         </Button>
-                        <Image Name="Icon"
-                               Source="{StaticResource ExceptionMarker}"
-                               VerticalAlignment="Top"
-                               Width="12"
-                               Height="12"
-                               Margin="0 0 5 0" />
-                        <TextBlock Text="Restore Error"
-                                   Margin="0 0 5 0" />
+                        <Image
+                            Name="Icon"
+                            Width="12"
+                            Height="12"
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Top"
+                            Source="{StaticResource ExceptionMarker}" />
+                        <TextBlock Margin="0,0,5,0" Text="Restore Error" />
                     </DockPanel>
-                    <TextBlock Grid.Column="2"
-                               Text="{Binding Message, Mode=OneTime}"
-                               TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding Message, Mode=OneTime}"
+                        TextWrapping="Wrap" />
                 </Grid>
                 <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding Severity}"
-                                 Value="Warning">
-                        <Setter TargetName="Icon"
-                                Property="Source"
-                                Value="{StaticResource WarningMarker}" />
+                    <DataTrigger Binding="{Binding Severity}" Value="Warning">
+                        <Setter TargetName="Icon" Property="Source" Value="{StaticResource WarningMarker}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
 
-            <DataTemplate x:Key="{DataTemplateKey {x:Static rp:XamlTypes.CompilationErrorResultObject}}"
-                          DataType="{x:Static rp:XamlTypes.CompilationErrorResultObject}">
+            <DataTemplate x:Key="{DataTemplateKey {x:Static rp:XamlTypes.CompilationErrorResultObject}}" DataType="{x:Static rp:XamlTypes.CompilationErrorResultObject}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="ResultNameGroup" />
@@ -431,50 +383,52 @@
                         <ColumnDefinition SharedSizeGroup="ResultTypeGroup" />
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0">
-                        <Button Command="Copy"
-                                Padding="0"
-                                Margin="2 0 5 0"
-                                VerticalAlignment="Top"
-                                KeyboardNavigation.IsTabStop="False"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
-                            <Image Source="{StaticResource Copy}"
-                                   ToolTip="Copy"
-                                   Height="12" />
+                        <Button
+                            Margin="2,0,5,0"
+                            Padding="0"
+                            VerticalAlignment="Top"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Command="Copy"
+                            KeyboardNavigation.IsTabStop="False">
+                            <Image
+                                Height="12"
+                                Source="{StaticResource Copy}"
+                                ToolTip="Copy" />
                         </Button>
-                        <Image Name="Icon"
-                               Source="{StaticResource ExceptionMarker}"
-                               VerticalAlignment="Top"
-                               Width="12"
-                               Height="12"
-                               Margin="0 0 5 0" />
-                        <TextBlock Text="{Binding Severity, Mode=OneTime}"
-                                   Margin="0 0 5 0" />
+                        <Image
+                            Name="Icon"
+                            Width="12"
+                            Height="12"
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Top"
+                            Source="{StaticResource ExceptionMarker}" />
+                        <TextBlock Margin="0,0,5,0" Text="{Binding Severity, Mode=OneTime}" />
                         <TextBlock Text="{Binding ErrorCode, Mode=OneTime}" />
                     </DockPanel>
-                    <TextBlock Grid.Column="2"
-                               Text="{Binding Message, Mode=OneTime}"
-                               TextWrapping="Wrap" />
-                    <TextBlock Grid.Column="4"
-                               VerticalAlignment="Top"
-                               TextWrapping="Wrap">
-                        <Run Text="{Binding LineNumber, Mode=OneTime}" />,
-                        <Run Text="{Binding Column, Mode=OneTime}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding Message, Mode=OneTime}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="4"
+                        VerticalAlignment="Top"
+                        TextWrapping="Wrap">
+                        <Run Text="{Binding LineNumber, Mode=OneTime}" />
+                        ,<Run Text="{Binding Column, Mode=OneTime}" />
                     </TextBlock>
                 </Grid>
                 <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding Severity}"
-                                 Value="Warning">
-                        <Setter TargetName="Icon"
-                                Property="Source"
-                                Value="{StaticResource WarningMarker}" />
+                    <DataTrigger Binding="{Binding Severity}" Value="Warning">
+                        <Setter TargetName="Icon" Property="Source" Value="{StaticResource WarningMarker}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
 
-            <HierarchicalDataTemplate x:Key="{DataTemplateKey {x:Static rp:XamlTypes.ResultObject}}"
-                                      DataType="{x:Static rp:XamlTypes.ResultObject}"
-                                      ItemsSource="{Binding Children, Mode=OneTime}">
+            <HierarchicalDataTemplate
+                x:Key="{DataTemplateKey {x:Static rp:XamlTypes.ResultObject}}"
+                DataType="{x:Static rp:XamlTypes.ResultObject}"
+                ItemsSource="{Binding Children, Mode=OneTime}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="ResultNameGroup" />
@@ -485,27 +439,31 @@
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0">
                         <ToggleButton Style="{StaticResource TreeListViewToggleStyle}" />
-                        <Button Command="Copy"
-                                Padding="0"
-                                Margin="2 0 5 0"
-                                VerticalAlignment="Top"
-                                KeyboardNavigation.IsTabStop="False"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
-                            <Image Source="{StaticResource Copy}"
-                                   ToolTip="Copy Value"
-                                   Height="12" />
+                        <Button
+                            Margin="2,0,5,0"
+                            Padding="0"
+                            VerticalAlignment="Top"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Command="Copy"
+                            KeyboardNavigation.IsTabStop="False">
+                            <Image
+                                Height="12"
+                                Source="{StaticResource Copy}"
+                                ToolTip="Copy Value" />
                         </Button>
                         <TextBlock Text="{Binding Header, Mode=OneTime}" />
                     </DockPanel>
-                    <TextBlock Grid.Column="2"
-                               rp:BindingHelpers.Inlines="{Binding Value, Mode=OneTime, Converter={x:Static converters:ControlCharacterInlinesConverter.Instance}}"
-                               TextWrapping="Wrap"
-                               Margin="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
-                    <TextBlock Grid.Column="4"
-                               TextWrapping="Wrap"
-                               Text="{Binding Type, Mode=OneTime}"
-                               Margin="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}"
+                        rp:BindingHelpers.Inlines="{Binding Value, Mode=OneTime, Converter={x:Static converters:ControlCharacterInlinesConverter.Instance}}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="4"
+                        Margin="{Binding Path=Level, Mode=OneTime, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType=controls:TreeListViewItem}}"
+                        Text="{Binding Type, Mode=OneTime}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </HierarchicalDataTemplate>
 
